@@ -1,8 +1,18 @@
 import path from "path";
 import { createServer } from "./index";
-import * as express from "express";
+import express from "express";
+import connectDB from "./config/database";
 
-const app = await createServer();
+// Connect to MongoDB
+try {
+  await connectDB();
+  console.log('MongoDB connected successfully');
+} catch (error) {
+  console.error('MongoDB connection failed:', error);
+  process.exit(1);
+}
+
+const { app, server } = await createServer();
 const port = process.env.PORT || 3000;
 
 // In production, serve the built SPA files
@@ -22,10 +32,11 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
 
-app.listen(port, () => {
-  console.log(`🚀 Fusion Starter server running on port ${port}`);
+server.listen(port, () => {
+  console.log(`🚀 Server running on port ${port}`);
   console.log(`📱 Frontend: http://localhost:${port}`);
   console.log(`🔧 API: http://localhost:${port}/api`);
+  console.log(`Socket.IO enabled for real-time messaging`);
 });
 
 // Graceful shutdown
