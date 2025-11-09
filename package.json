@@ -6,7 +6,7 @@
     "dev": "tsx watch index.ts",
     "dev:server": "nodemon index.ts",
     "build": "vite build --config vite.config.server.ts",
-    "start": "node dist/production.mjs",
+    "start": "tsx index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
