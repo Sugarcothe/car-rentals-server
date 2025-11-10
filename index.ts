@@ -15,9 +15,13 @@ export async function createServer() {
   console.log('Socket.IO initialized successfully');
 
   // Middleware
+  const allowedOrigins = process.env.CLIENT_URL 
+    ? [process.env.CLIENT_URL, "https://car-sales-black-pi.vercel.app", "http://localhost:5176"]
+    : ["http://localhost:3000", "http://localhost:5176"];
+    
   app.use(
     cors({
-      origin: ["http://localhost:3000", "http://localhost:5176"],
+      origin: allowedOrigins,
       credentials: true,
     })
   );
